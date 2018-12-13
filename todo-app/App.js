@@ -30,6 +30,9 @@ export default class App extends React.Component {
               placeholder="Add todo"
               value={newTodo}
               onChange={this.addTodo}
+              onSubmitEditing={() => {
+                this.setState({ newTodo: '' })
+              }}
               returnKeyType={'done'}
               autoCorrect={true} />
           </View>
@@ -62,7 +65,8 @@ const styles = StyleSheet.create({
   },
   input: {
     padding: 20,
-    fontSize: 24
+    fontSize: 24,
+    fontWeight: '300'
   },
   inputBox: {
     borderBottomWidth: 0.5,
