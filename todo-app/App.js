@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, ScrollView } from 'react-native'
 import { LinearGradient } from 'expo'
+import TodoList from './components/todolist'
 
 export default class App extends React.Component {
   constructor(props) {
@@ -32,9 +33,9 @@ export default class App extends React.Component {
               returnKeyType={'done'}
               autoCorrect={true} />
           </View>
-          {/* <ScrollView>
-            <Text>Todolist</Text>
-          </ScrollView> */}
+          <ScrollView>
+            <TodoList />
+          </ScrollView>
         </View>
       </LinearGradient>
     )
