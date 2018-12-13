@@ -5,9 +5,12 @@ export default class TodoList extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      isEditing: false,
       isCompleted: false
     }
     this.toggleCircle = this.toggleCircle.bind(this)
+    this.editItem = this.editItem.bind(this)
+    this.finishEdit = this.finishEdit.bind(this)
   }
 
   toggleCircle() {
@@ -16,8 +19,16 @@ export default class TodoList extends Component {
     }))
   }
 
+  editItem() {
+    this.setState({ isEditing: true })
+  }
+
+  finishEdit() {
+    this.setState({ isEditing: false })
+  }
+
   render() {
-    const { isCompleted } = this.state
+    const { isEditing, isCompleted } = this.state
     return (
       <View style={styles.container}>
         <View style={styles.row}>
@@ -29,11 +40,18 @@ export default class TodoList extends Component {
           </Text>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity>
-            <View style={styles.button}>
-              <Text>✏️</Text>
-            </View>
-          </TouchableOpacity>
+          {isEditing
+            ? <TouchableOpacity onPressOut={this.finishEdit}>
+                <View style={styles.button}>
+                  <Text>🆗</Text>
+                </View>
+              </TouchableOpacity>
+            : <TouchableOpacity onPressOut={this.editItem}>
+                <View style={styles.button}>
+                  <Text>✏️</Text>
+                </View>
+              </TouchableOpacity>
+          }  
           <TouchableOpacity>
             <View style={styles.button}>
               <Text>❌</Text>
