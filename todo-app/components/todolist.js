@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from 'react-native'
 
 export default class TodoList extends Component {
   constructor(props) {
@@ -20,10 +20,26 @@ export default class TodoList extends Component {
     const { isCompleted } = this.state
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={this.toggleCircle}>
-          <View style={[styles.circle, isCompleted ? styles.completeCircle : styles.incompleteCircle]}></View>
-        </TouchableOpacity>
-        <Text style={[styles.text, isCompleted ? styles.text : styles.completed]}>Hi</Text>
+        <View style={styles.row}>
+          <TouchableOpacity onPress={this.toggleCircle}>
+            <Text style={styles.button}>{ isCompleted ? '✅' : '⬜' }</Text>
+          </TouchableOpacity>
+          <Text style={[styles.text, isCompleted ? styles.completed : styles.text]}>
+            Hi
+          </Text>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity>
+            <View style={styles.button}>
+              <Text>✏️</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <View style={styles.button}>
+              <Text>❌</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -31,28 +47,31 @@ export default class TodoList extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    width: Dimensions.get('window').width - 50,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomColor: '#a9a9a9',
+    borderBottomWidth: 0.5,
+    padding: 10
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   text: {
     fontSize: 24,
-    fontWeight: '300'
+    fontWeight: '300',
+    paddingLeft: 5
   },
   completed: {
     textDecorationLine: 'line-through',
     color: '#C0C0C0'
   },
-  circle: {
-    height: 30,
-    width: 30,
-    borderRadius: 15,
-    borderWidth: 2,
-    margin: 20
+  buttonContainer: {
+    flexDirection: 'row'
   },
-  completeCircle: {
-    borderColor: '#C0C0C0'
-  },
-  incompleteCircle: {
-    backgroundColor: '#C0C0C0' 
+  button: {
+    padding: 10
   }
 })

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, ScrollView } 
 import { LinearGradient } from 'expo'
 import TodoList from './components/todolist'
 
+
 export default class App extends React.Component {
   constructor(props) {
     super(props)
