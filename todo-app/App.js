@@ -1,15 +1,23 @@
 import React from 'react'
-import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, ScrollView } from 'react-native'
 import { LinearGradient } from 'expo'
 
 export default class App extends React.Component {
-  // constructor(props) {
-  //   super(props)
-    
-  // }
+  constructor(props) {
+    super(props)
+    this.state = {
+      newTodo: ''
+    }
+    this.addTodo = this.addTodo.bind(this)
+  }
+
+  addTodo(todo) {
+    this.setState({ newTodo: todo })
+  }
 
   render() {
     const {height, width} = Dimensions.get('window')
+    const {newTodo} = this.state
     return (
       <LinearGradient style={styles.container}
         colors={['#4568dc', '#b06ab3']}>
@@ -17,8 +25,16 @@ export default class App extends React.Component {
         <Text style={styles.title}>Todo List</Text>
         <View style={styles.list} width={width - 60}>
           <View style={styles.inputBox}>
-            <TextInput style={styles.input} placeholder="Add todo" />
+            <TextInput style={styles.input} 
+              placeholder="Add todo"
+              value={newTodo}
+              onChange={this.addTodo}
+              returnKeyType={'done'}
+              autoCorrect={true} />
           </View>
+          {/* <ScrollView>
+            <Text>Todolist</Text>
+          </ScrollView> */}
         </View>
       </LinearGradient>
     )
