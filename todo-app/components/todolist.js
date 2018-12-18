@@ -4,15 +4,17 @@ import { StyleSheet, View, Text, TouchableOpacity, Dimensions, TextInput } from 
 
 export default class TodoList extends Component {
   static propTypes = {
-    textValue: PropTypes.string.isRequired,
-    isCompleted: PropTypes.bool.isRequired
+    todo: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    isCompleted: PropTypes.bool.isRequired,
+    deleteTodo: PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props)
     this.state = {
       isEditing: false,
-      todoValue: props.textValue
+      todoValue: props.todo
     }
     this.toggleCheck = this.toggleCheck.bind(this)
     this.editItem = this.editItem.bind(this)
@@ -40,6 +42,7 @@ export default class TodoList extends Component {
 
   render() {
     const { isEditing, isCompleted, todoValue } = this.state
+    const { todo, id, deleteTodo } = this.props
     return (
       <View style={styles.container}>
         <View style={styles.row}>
@@ -52,9 +55,7 @@ export default class TodoList extends Component {
                 returnKeyType={'done'}
                 onBlur={this.finishEdit}
                 onChangeText={this.controlInput} />
-            : <Text style={[styles.text, isCompleted ? styles.completed : styles.text]}>
-            {this.props.textValue}
-          </Text>
+            : <Text style={[styles.text, isCompleted ? styles.completed : styles.text]}>{todo}</Text>
           }
         </View>
         <View style={styles.buttonContainer}>
@@ -70,7 +71,7 @@ export default class TodoList extends Component {
                 </View>
               </TouchableOpacity>
           }  
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => deleteTodo(id)}>
             <View style={styles.button}>
               <Text>❌</Text>
             </View>

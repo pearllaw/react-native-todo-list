@@ -10,11 +10,12 @@ export default class App extends React.Component {
     super(props)
     this.state = {
       newTodo: '',
+      todo: '',
       todos: {},
-      textValue: '',
       dataReady: false
     }
     this.addTodo = this.addTodo.bind(this)
+    this.deleteTodo = this.deleteTodo.bind(this)
     this.newTodoItemController = this.newTodoItemController.bind(this)
   }
 
@@ -43,8 +44,20 @@ export default class App extends React.Component {
     }
   }
 
-  newTodoItemController(textValue) {
-    this.setState({ newTodo: textValue })
+  deleteTodo(id) {
+    this.setState(prevState => {
+      const todos = prevState.todos
+      delete todos[id]
+      const updatedTodos = {
+        ...prevState,
+        ...todos
+      }
+      return { ...updatedTodos }
+    })
+  }
+
+  newTodoItemController(todo) {
+    this.setState({ newTodo: todo })
   }
 
   loadApp() {
@@ -75,7 +88,7 @@ export default class App extends React.Component {
               autoCorrect={true} />
           </View>
           <ScrollView>
-            {Object.values(todos).map(todo => <TodoList key={todo.id} {...todo} />)}
+            {Object.values(todos).map(todo => <TodoList key={todo.id} {...todo} deleteTodo={this.deleteTodo} />)}
           </ScrollView>
         </View>
       </LinearGradient>
