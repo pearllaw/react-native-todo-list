@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { StyleSheet, View, Text, TouchableOpacity, Dimensions, TextInput } from 'react-native'
 
 export default class TodoList extends Component {
+  static propTypes = {
+    textValue: PropTypes.string.isRequired,
+    isCompleted: PropTypes.bool.isRequired
+  }
+
   constructor(props) {
     super(props)
     this.state = {
       isEditing: false,
-      isCompleted: false,
-      todoValue: ''
+      todoValue: props.textValue
     }
     this.toggleCheck = this.toggleCheck.bind(this)
     this.editItem = this.editItem.bind(this)
@@ -22,11 +27,7 @@ export default class TodoList extends Component {
   }
 
   editItem() {
-    const { textValue } = this.props
-    this.setState({ 
-      isEditing: true,
-      todoValue: textValue 
-    })
+    this.setState({ isEditing: true })
   }
 
   finishEdit() {

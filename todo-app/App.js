@@ -1,4 +1,5 @@
 import React from 'react'
+import uuidv1 from 'uuid/v1'
 import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, ScrollView } from 'react-native'
 import { LinearGradient, AppLoading } from 'expo'
 import TodoList from './components/todolist'
@@ -9,10 +10,37 @@ export default class App extends React.Component {
     super(props)
     this.state = {
       newTodo: '',
+      todos: {},
       textValue: '',
       dataReady: false
     }
+    this.addTodo = this.addTodo.bind(this)
     this.newTodoItemController = this.newTodoItemController.bind(this)
+  }
+
+  addTodo() {
+    const { newTodo } = this.state
+    if (newTodo !== '') {
+      this.setState(prevState => {
+        const ID = uuidv1()
+        const newTodoObject = {
+          [ID]: {
+            id: ID,
+            isCompleted: false,
+            todo: newTodo,
+          }
+        }
+        const updatedState = {
+          ...prevState,
+          newTodo: '',
+          todos: {
+            ...prevState.todos,
+            ...newTodoObject
+          }
+        }
+        return { ...updatedState }
+      })
+    }
   }
 
   newTodoItemController(textValue) {
@@ -29,7 +57,7 @@ export default class App extends React.Component {
 
   render() {
     const { height, width } = Dimensions.get('window')
-    const { newTodo, dataReady } = this.state
+    const { newTodo, dataReady, todos } = this.state
     if (!dataReady) return <AppLoading />
     return (
       <LinearGradient style={styles.container}
@@ -41,15 +69,13 @@ export default class App extends React.Component {
             <TextInput style={styles.input} 
               placeholder="Add todo"
               value={newTodo}
-              onChange={this.newTodoItemController}
-              onSubmitEditing={() => {
-                this.setState({ newTodo: '' })
-              }}
+              onChangeText={this.newTodoItemController}
+              onSubmitEditing={this.addTodo}
               returnKeyType={'done'}
               autoCorrect={true} />
           </View>
           <ScrollView>
-            <TodoList textValue={'todoItem'} />
+            {Object.values(todos).map(todo => <TodoList key={todo.id} {...todo} />)}
           </ScrollView>
         </View>
       </LinearGradient>
