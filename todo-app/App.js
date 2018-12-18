@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, ScrollView } from 'react-native'
-import { LinearGradient } from 'expo'
+import { LinearGradient, AppLoading } from 'expo'
 import TodoList from './components/todolist'
 
 
@@ -9,7 +9,8 @@ export default class App extends React.Component {
     super(props)
     this.state = {
       newTodo: '',
-      textValue: ''
+      textValue: '',
+      dataReady: false
     }
     this.newTodoItemController = this.newTodoItemController.bind(this)
   }
@@ -18,9 +19,18 @@ export default class App extends React.Component {
     this.setState({ newTodo: textValue })
   }
 
+  loadApp() {
+    this.setState({ dataReady: true })
+  }
+
+  componentDidMount() {
+    this.loadApp()
+  }
+
   render() {
-    const {height, width} = Dimensions.get('window')
-    const {newTodo} = this.state
+    const { height, width } = Dimensions.get('window')
+    const { newTodo, dataReady } = this.state
+    if (!dataReady) return <AppLoading />
     return (
       <LinearGradient style={styles.container}
         colors={['#4568dc', '#b06ab3']}>

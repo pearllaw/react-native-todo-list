@@ -33,8 +33,8 @@ export default class TodoList extends Component {
     this.setState({ isEditing: false })
   }
 
-  controlInput(textValue) {
-    this.setState({ todoValue: textValue })
+  controlInput(editingText) {
+    this.setState({ todoValue: editingText })
   }
 
   render() {
@@ -48,7 +48,6 @@ export default class TodoList extends Component {
           {isEditing
             ? <TextInput value={todoValue} 
                 style={[styles.text, isCompleted ? styles.completed : styles.text]}
-                multiline={true}
                 returnKeyType={'done'}
                 onBlur={this.finishEdit}
                 onChangeText={this.controlInput} />
