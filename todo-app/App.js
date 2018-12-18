@@ -16,6 +16,8 @@ export default class App extends React.Component {
     }
     this.addTodo = this.addTodo.bind(this)
     this.deleteTodo = this.deleteTodo.bind(this)
+    this.completed = this.completed.bind(this)
+    this.incompleted = this.incompleted.bind(this)
     this.newTodoItemController = this.newTodoItemController.bind(this)
   }
 
@@ -42,6 +44,38 @@ export default class App extends React.Component {
         return { ...updatedState }
       })
     }
+  }
+
+  incompleted(id) {
+    this.setState(prevState => {
+      const incompletedState = {
+        ...prevState,
+        todos: {
+          ...prevState.todos,
+          [id]: {
+            ...prevState.todos[id],
+            isCompleted: false
+          }
+        }
+      }
+      return { ...incompletedState }
+    })
+  }
+
+  completed(id) {
+    this.setState(prevState => {
+      const completedState = {
+        ...prevState,
+        todos: {
+          ...prevState.todos,
+          [id]: {
+            ...prevState.todos[id],
+            isCompleted: true
+          }
+        }
+      }
+      return { ...completedState }
+    })
   }
 
   deleteTodo(id) {
@@ -88,7 +122,14 @@ export default class App extends React.Component {
               autoCorrect={true} />
           </View>
           <ScrollView>
-            {Object.values(todos).map(todo => <TodoList key={todo.id} {...todo} deleteTodo={this.deleteTodo} />)}
+            {Object.values(todos).map(todo => 
+              <TodoList key={todo.id} 
+                {...todo} 
+                deleteTodo={this.deleteTodo}
+                completed={this.completed}
+                incompleted={this.incompleted} />
+              )
+            }
           </ScrollView>
         </View>
       </LinearGradient>

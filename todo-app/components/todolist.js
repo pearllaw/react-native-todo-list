@@ -7,7 +7,9 @@ export default class TodoList extends Component {
     todo: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     isCompleted: PropTypes.bool.isRequired,
-    deleteTodo: PropTypes.func.isRequired
+    deleteTodo: PropTypes.func.isRequired,
+    incompleted: PropTypes.func.isRequired,
+    completed: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -23,9 +25,13 @@ export default class TodoList extends Component {
   }
 
   toggleCheck() {
-    this.setState(prevState => ({
-      isCompleted: !prevState.isCompleted
-    }))
+    const { isCompleted, completed, incompleted, id } = this.props
+    if (isCompleted) {
+      incompleted(id)
+    }
+    else {
+      completed(id)
+    }
   }
 
   editItem() {
@@ -41,8 +47,8 @@ export default class TodoList extends Component {
   }
 
   render() {
-    const { isEditing, isCompleted, todoValue } = this.state
-    const { todo, id, deleteTodo } = this.props
+    const { isEditing, todoValue } = this.state
+    const { todo, id, deleteTodo, isCompleted } = this.props
     return (
       <View style={styles.container}>
         <View style={styles.row}>
