@@ -1,6 +1,6 @@
 import React from 'react'
 import uuidv1 from 'uuid/v1'
-import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, ScrollView, AsyncStorage } from 'react-native'
 import { LinearGradient, AppLoading } from 'expo'
 import TodoList from './components/todolist'
 
@@ -16,9 +16,14 @@ export default class App extends React.Component {
     }
     this.addTodo = this.addTodo.bind(this)
     this.deleteTodo = this.deleteTodo.bind(this)
+    this.editTodo = this.editTodo.bind(this)
     this.completed = this.completed.bind(this)
     this.incompleted = this.incompleted.bind(this)
     this.newTodoItemController = this.newTodoItemController.bind(this)
+  }
+
+  saveTodos(newTodos) {
+    const saveTodos = AsyncStorage.setItem('todos', JSON.stringify(newTodos))
   }
 
   addTodo() {
@@ -41,9 +46,27 @@ export default class App extends React.Component {
             ...newTodoObject
           }
         }
+        this.saveTodos(updatedState.todos)
         return { ...updatedState }
       })
     }
+  }
+
+  editTodo(id, todo) {
+    this.setState(prevState => {
+      const updatedState = {
+        ...prevState,
+        todos: {
+          ...prevState.todos,
+          [id]: {
+            ...prevState.todos[id],
+            todo
+          }
+        }
+      }
+      this.saveTodos(updatedState.todos)
+      return { ...updatedState }
+    })
   }
 
   incompleted(id) {
@@ -58,6 +81,7 @@ export default class App extends React.Component {
           }
         }
       }
+      this.saveTodos(incompletedState.todos)
       return { ...incompletedState }
     })
   }
@@ -74,6 +98,7 @@ export default class App extends React.Component {
           }
         }
       }
+      this.saveTodos(completedState.todos)
       return { ...completedState }
     })
   }
@@ -86,6 +111,7 @@ export default class App extends React.Component {
         ...prevState,
         ...todos
       }
+      this.saveTodos(updatedTodos.todos)
       return { ...updatedTodos }
     })
   }
@@ -127,7 +153,8 @@ export default class App extends React.Component {
                 {...todo} 
                 deleteTodo={this.deleteTodo}
                 completed={this.completed}
-                incompleted={this.incompleted} />
+                incompleted={this.incompleted}
+                editTodo={this.editTodo} />
               )
             }
           </ScrollView>

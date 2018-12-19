@@ -9,7 +9,8 @@ export default class TodoList extends Component {
     isCompleted: PropTypes.bool.isRequired,
     deleteTodo: PropTypes.func.isRequired,
     incompleted: PropTypes.func.isRequired,
-    completed: PropTypes.func.isRequired
+    completed: PropTypes.func.isRequired,
+    editTodo: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -39,6 +40,9 @@ export default class TodoList extends Component {
   }
 
   finishEdit() {
+    const { todoValue } = this.state
+    const { id, editTodo } = this.props
+    editTodo(id, todoValue)
     this.setState({ isEditing: false })
   }
 
