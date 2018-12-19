@@ -22,10 +22,6 @@ export default class App extends React.Component {
     this.newTodoItemController = this.newTodoItemController.bind(this)
   }
 
-  saveTodos(newTodos) {
-    const saveTodos = AsyncStorage.setItem('todos', JSON.stringify(newTodos))
-  }
-
   addTodo() {
     const { newTodo } = this.state
     if (newTodo !== '') {
@@ -120,12 +116,18 @@ export default class App extends React.Component {
     this.setState({ newTodo: todo })
   }
 
-  loadApp() {
-    this.setState({ dataReady: true })
+  saveTodos(newTodos) {
+    const saveTodos = AsyncStorage.setItem('todos', JSON.stringify(newTodos))
   }
 
-  componentDidMount() {
-    this.loadApp()
+  async componentDidMount() {
+    try {
+      const getTodos = await AsyncStorage.getItem('todos')
+      this.setState({ dataReady: true, todos: JSON.parse(getTodos) })
+    }
+    catch (err) {
+      console.log(err)
+    }
   }
 
   render() {
