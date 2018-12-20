@@ -150,14 +150,16 @@ export default class App extends React.Component {
               autoCorrect={true} />
           </View>
           <ScrollView>
-            {Object.values(todos).map(todo => 
-              <TodoList key={todo.id} 
-                {...todo} 
-                deleteTodo={this.deleteTodo}
-                completed={this.completed}
-                incompleted={this.incompleted}
-                editTodo={this.editTodo} />
-              )
+            {todos
+              ? Object.values(todos).map(todo => 
+                  <TodoList key={todo.id} 
+                    {...todo} 
+                    deleteTodo={this.deleteTodo}
+                    completed={this.completed}
+                    incompleted={this.incompleted}
+                    editTodo={this.editTodo} />
+                )
+              : null  
             }
           </ScrollView>
         </View>
