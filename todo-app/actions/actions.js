@@ -1,9 +1,18 @@
-import { ADD_TODO, EDIT_TODO, REMOVE_TODO } from './types'
+import { ADD_TODO, TOGGLE_TODO, EDIT_TODO, REMOVE_TODO } from './types'
 
+let nextTodoId = 0
 export function addTodo(text) {
   return {
     type: ADD_TODO,
-    text
+    text,
+    id: nextTodoId++
+  }
+}
+
+export function toggleTodo(id) {
+  return {
+    type: TOGGLE_TODO,
+    id
   }
 }
 
