@@ -1,12 +1,16 @@
 import React, {Component} from 'react'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import todoApp from './reducers/todos'
+import todos from './reducers/todos'
 import App from './App'
 
-const store = createStore(todoApp)
+const store = createStore(todos)
 
 export default class Root extends Component {
+  componentDidMount() {
+    console.log(store.getState())
+  }
+
   render() {
     return (
       <Provider store={store}>

@@ -1,16 +1,12 @@
 import { ADD_TODO, TOGGLE_TODO, EDIT_TODO, REMOVE_TODO } from '../actions/actions'
 
-const initialState = {
-  todos: []
-}
-
-export default function todoApp(state = initialState, action) {
+export default function todos(state = [], action) {
   switch (action.type) {
     case ADD_TODO:
       return [
         ...state,
         {
-          todo: action.text,
+          text: action.text,
           id: action.id,
           isCompleted: false
         }
@@ -24,7 +20,7 @@ export default function todoApp(state = initialState, action) {
     case EDIT_TODO: 
       const updateTodos = state.map(todo => {
         return todo.id === action.id
-          ? { ...todo, todo: action.text }
+          ? { ...todo, text: action.text }
           : todo
       })
       return updateTodos
