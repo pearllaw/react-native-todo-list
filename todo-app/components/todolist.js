@@ -1,70 +1,46 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { StyleSheet, View, Text, TouchableOpacity, Dimensions, TextInput } from 'react-native'
+import { editTodo, toggleTodo } from '../actions/actions'
+import { connect } from 'react-redux'
 
-export default class TodoList extends Component {
-  static propTypes = {
-    todo: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    isCompleted: PropTypes.bool.isRequired,
-    deleteTodo: PropTypes.func.isRequired,
-    incompleted: PropTypes.func.isRequired,
-    completed: PropTypes.func.isRequired,
-    editTodo: PropTypes.func.isRequired
-  }
-
+class TodoList extends Component {
+  
   constructor(props) {
     super(props)
     this.state = {
       isEditing: false,
       todoValue: props.todo
     }
-    this.toggleCheck = this.toggleCheck.bind(this)
-    this.editItem = this.editItem.bind(this)
+    this.startEdit = this.startEdit.bind(this)
     this.finishEdit = this.finishEdit.bind(this)
-    this.controlInput = this.controlInput.bind(this)
   }
 
-  toggleCheck() {
-    const { isCompleted, completed, incompleted, id } = this.props
-    if (isCompleted) {
-      incompleted(id)
-    }
-    else {
-      completed(id)
-    }
-  }
-
-  editItem() {
+  startEdit() {
     this.setState({ isEditing: true })
   }
 
   finishEdit() {
     const { todoValue } = this.state
     const { id, editTodo } = this.props
-    editTodo(id, todoValue)
+    this.props.dispatch(() => editTodo(todoValue, id))
     this.setState({ isEditing: false })
-  }
-
-  controlInput(editingText) {
-    this.setState({ todoValue: editingText })
   }
 
   render() {
     const { isEditing, todoValue } = this.state
-    const { todo, id, deleteTodo, isCompleted } = this.props
+    const { todo, id, isCompleted, toggleTodo } = this.props
     return (
       <View style={styles.container}>
         <View style={styles.row}>
-          <TouchableOpacity onPress={this.toggleCheck}>
+          <TouchableOpacity onPress={() => toggleTodo(id)}>
             <Text style={styles.button}>{ isCompleted ? '✅' : '⬜' }</Text>
           </TouchableOpacity>
           {isEditing
             ? <TextInput value={todoValue} 
                 style={[styles.text, isCompleted ? styles.completed : styles.text]}
                 returnKeyType={'done'}
-                onBlur={this.finishEdit}
-                onChangeText={this.controlInput} />
+                onBlur={editTodo}
+                onChangeText={(newText) => this.setState({ todoValue: newText })} />
             : <Text style={[styles.text, isCompleted ? styles.completed : styles.text]}>{todo}</Text>
           }
         </View>
@@ -75,7 +51,7 @@ export default class TodoList extends Component {
                   <Text>🆗</Text>
                 </View>
               </TouchableOpacity>
-            : <TouchableOpacity onPressOut={this.editItem}>
+            : <TouchableOpacity onPressOut={this.startEdit}>
                 <View style={styles.button}>
                   <Text>✏️</Text>
                 </View>
@@ -91,6 +67,13 @@ export default class TodoList extends Component {
     )
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  editTodo: (todo, id) => dispatch(editTodo(todo, id)),
+  toggleTodo: id => dispatch(toggleTodo(id))
+})
+
+export default connect(null, mapDispatchToProps)(TodoList)
 
 const styles = StyleSheet.create({
   container: {
