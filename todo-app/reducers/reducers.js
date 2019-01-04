@@ -22,9 +22,7 @@ export default function todoController(state = initialState, action) {
     case EDIT_TODO:
       return state.map(todo => {
         return todo.id === action.id
-          ? Object.assign({}, todo, {
-              todo: action.todo
-          })
+          ? Object.assign({}, todo, { todo: action.todo })
           : todo
       })
     case REMOVE_TODO:

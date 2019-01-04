@@ -21,14 +21,14 @@ class TodoList extends Component {
 
   finishEdit() {
     const { todoValue } = this.state
-    const { id, editTodo } = this.props
-    this.props.dispatch(() => editTodo(todoValue, id))
+    const { id } = this.props
+    editTodo(todoValue, id)
     this.setState({ isEditing: false })
   }
 
   render() {
     const { isEditing, todoValue } = this.state
-    const { todo, id, isCompleted, toggleTodo } = this.props
+    const { id, isCompleted, toggleTodo } = this.props
     return (
       <View style={styles.container}>
         <View style={styles.row}>
@@ -39,9 +39,10 @@ class TodoList extends Component {
             ? <TextInput value={todoValue} 
                 style={[styles.text, isCompleted ? styles.completed : styles.text]}
                 returnKeyType={'done'}
-                onBlur={editTodo}
-                onChangeText={(newText) => this.setState({ todoValue: newText })} />
-            : <Text style={[styles.text, isCompleted ? styles.completed : styles.text]}>{todo}</Text>
+                onBlur={this.finishEdit}
+                onChangeText={(newText) => this.setState({ todoValue: newText })}
+                autoCorrect={false} />
+            : <Text style={[styles.text, isCompleted ? styles.completed : styles.text]}>{todoValue}</Text>
           }
         </View>
         <View style={styles.buttonContainer}>
@@ -69,7 +70,7 @@ class TodoList extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  editTodo: (todo, id) => dispatch(editTodo(todo, id)),
+  editTodo: (todoValue, id) => dispatch(editTodo(todoValue, id)),
   toggleTodo: id => dispatch(toggleTodo(id))
 })
 
