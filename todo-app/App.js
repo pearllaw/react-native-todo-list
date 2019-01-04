@@ -1,7 +1,6 @@
 import React from 'react'
-import uuidv1 from 'uuid/v1'
-import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, ScrollView, AsyncStorage } from 'react-native'
-import { LinearGradient, AppLoading } from 'expo'
+import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, ScrollView } from 'react-native'
+import { LinearGradient } from 'expo'
 import TodoList from './components/todolist'
 import { connect } from 'react-redux'
 
@@ -13,7 +12,6 @@ class App extends React.Component {
     }
     // this.addTodo = this.addTodo.bind(this)
     // this.deleteTodo = this.deleteTodo.bind(this)
-    // this.editTodo = this.editTodo.bind(this)
   }
 
   // addTodo() {
@@ -42,22 +40,6 @@ class App extends React.Component {
   //   }
   // }
 
-  // editTodo(id, todo) {
-  //   this.setState(prevState => {
-  //     const updatedState = {
-  //       ...prevState,
-  //       todos: {
-  //         ...prevState.todos,
-  //         [id]: {
-  //           ...prevState.todos[id],
-  //           todo
-  //         }
-  //       }
-  //     }
-  //     this.saveTodos(updatedState.todos)
-  //     return { ...updatedState }
-  //   })
-  // }
 
   // deleteTodo(id) {
   //   this.setState(prevState => {
@@ -91,7 +73,7 @@ class App extends React.Component {
               autoCorrect={false} />
           </View>
           <ScrollView>
-            {state.length > 0 && state.map(todo => 
+            {state.map(todo => 
               <TodoList key={todo.id}
                 id={todo.id} 
                 {...todo} />

@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, TouchableOpacity, Dimensions, TextInput } from 'react-native'
-import { editTodo, toggleTodo } from '../actions/actions'
+import { editTodo, toggleTodo, removeTodo } from '../actions/actions'
 import { connect } from 'react-redux'
 
 class TodoList extends Component {
-  
   constructor(props) {
     super(props)
     this.state = {
@@ -28,7 +27,7 @@ class TodoList extends Component {
 
   render() {
     const { isEditing, todoValue } = this.state
-    const { id, isCompleted, toggleTodo } = this.props
+    const { id, isCompleted, toggleTodo, removeTodo } = this.props
     return (
       <View style={styles.container}>
         <View style={styles.row}>
@@ -58,7 +57,7 @@ class TodoList extends Component {
                 </View>
               </TouchableOpacity>
           }  
-          <TouchableOpacity onPress={() => deleteTodo(id)}>
+          <TouchableOpacity onPress={() => removeTodo(id)}>
             <View style={styles.button}>
               <Text>❌</Text>
             </View>
@@ -71,7 +70,8 @@ class TodoList extends Component {
 
 const mapDispatchToProps = dispatch => ({
   editTodo: (todoValue, id) => dispatch(editTodo(todoValue, id)),
-  toggleTodo: id => dispatch(toggleTodo(id))
+  toggleTodo: id => dispatch(toggleTodo(id)),
+  removeTodo: id => dispatch(removeTodo(id))
 })
 
 export default connect(null, mapDispatchToProps)(TodoList)
