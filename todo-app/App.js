@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, ScrollView } from 'react-native'
 import { LinearGradient } from 'expo'
 import TodoList from './components/todolist'
+import { addTodo } from './actions/actions'
 import { connect } from 'react-redux'
 
 class App extends React.Component {
@@ -10,53 +11,11 @@ class App extends React.Component {
     this.state = {
       text: ''
     }
-    // this.addTodo = this.addTodo.bind(this)
-    // this.deleteTodo = this.deleteTodo.bind(this)
   }
-
-  // addTodo() {
-  //   const { newTodo } = this.state
-  //   if (newTodo !== '') {
-  //     this.setState(prevState => {
-  //       const ID = uuidv1()
-  //       const newTodoObject = {
-  //         [ID]: {
-  //           id: ID,
-  //           isCompleted: false,
-  //           todo: newTodo,
-  //         }
-  //       }
-  //       const updatedState = {
-  //         ...prevState,
-  //         newTodo: '',
-  //         todos: {
-  //           ...prevState.todos,
-  //           ...newTodoObject
-  //         }
-  //       }
-  //       this.saveTodos(updatedState.todos)
-  //       return { ...updatedState }
-  //     })
-  //   }
-  // }
-
-
-  // deleteTodo(id) {
-  //   this.setState(prevState => {
-  //     const todos = prevState.todos
-  //     delete todos[id]
-  //     const updatedTodos = {
-  //       ...prevState,
-  //       ...todos
-  //     }
-  //     this.saveTodos(updatedTodos.todos)
-  //     return { ...updatedTodos }
-  //   })
-  // }
 
   render() {
     const { text } = this.state
-    const { state } = this.props
+    const { state, addTodo } = this.props
     return (
       <LinearGradient style={styles.container}
         colors={['#4568dc', '#b06ab3']}>
@@ -68,7 +27,8 @@ class App extends React.Component {
               placeholder="Add todo"
               value={text}
               onChangeText={(text) => this.setState({ text })}
-              onSubmitEditing={this.addTodo}
+              onBlur={() => this.setState({ text: '' })}
+              onSubmitEditing={() => addTodo(text)}
               returnKeyType={'done'}
               autoCorrect={false} />
           </View>
@@ -89,7 +49,11 @@ const mapStateToProps = state => ({
   state: state
 })
 
-export default connect(mapStateToProps)(App)
+const mapDispatchToProps = dispatch => ({
+  addTodo: todo => dispatch(addTodo(todo))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
 
 const styles = StyleSheet.create({
   container: {
