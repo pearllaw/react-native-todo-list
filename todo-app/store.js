@@ -7,6 +7,7 @@ import App from './App'
 const store = createStore(reducer)
 
 export default class todoApp extends Component {
+
   render() {
     return (
       <Provider store={store}>
