@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   title: {
     color: '#fff',
     fontSize: 40,
-    marginTop: 50, 
+    marginTop: 85, 
     fontWeight: '500'
   },
   list: {
