@@ -3,7 +3,7 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": "https://hr-n4a.anonymous.todo-app.exp.direct",
-  "packagerNgrokUrl": "https://packager.hr-n4a.anonymous.todo-app.exp.direct",
-  "ngrokPid": 34532
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }

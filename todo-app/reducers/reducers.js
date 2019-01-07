@@ -1,7 +1,9 @@
 import { ADD_TODO, EDIT_TODO, REMOVE_TODO, TOGGLE_TODO } from '../actions/types'
 import { AsyncStorage } from 'react-native'
 
-const saveData = async (state) => { 
+const initialState = AsyncStorage.getItem('todos').then(values => JSON.parse(values))
+
+const saveData = async (state) => {
   try {
     await AsyncStorage.setItem('todos', JSON.stringify(state))
   }
@@ -10,14 +12,10 @@ const saveData = async (state) => {
   }
 }
 
-const loadState = async () => {
-  return await JSON.parse(AsyncStorage.getItems('todos'))
-}
-
-export default function todoController(state = loadState.state || [], action) {
+export default function todoController(state = initialState || [], action) {
   switch (action.type) {
     case ADD_TODO:
-      const addTodos = [
+      const addTodo = [
         ...state, 
         {
           todo: action.todo,
@@ -25,28 +23,22 @@ export default function todoController(state = loadState.state || [], action) {
           isCompleted: false
         }
       ]
-      saveData(addTodos)
-      return addTodos
+      saveData(addTodo)
+      return addTodo
     case EDIT_TODO:
-      const editTodos = state.map(todo => {
+      return state.map(todo => {
         return todo.id === action.id
           ? Object.assign({}, todo, { todo: action.todo })
           : todo
       })
-      saveData(editTodos)
-      return editTodos
     case REMOVE_TODO:
-      const removeTodo = state.filter(todo => todo.id !== action.id)
-      saveData(removeTodo)
-      return removeTodo
+      return state.filter(todo => todo.id !== action.id)
     case TOGGLE_TODO:
-      const toggleTodo = state.map(todo => {
+      return state.map(todo => {
           return todo.id === action.id
             ? { ...todo, isCompleted: !todo.isCompleted }
             : todo 
       })
-      saveData(toggleTodo)
-      return toggleTodo
     default: 
       return state
   }
