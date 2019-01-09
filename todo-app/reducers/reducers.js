@@ -1,30 +1,20 @@
 import { ADD_TODO, EDIT_TODO, REMOVE_TODO, TOGGLE_TODO } from '../actions/types'
-import { AsyncStorage } from 'react-native'
 
-const initialState = AsyncStorage.getItem('todos').then(values => JSON.parse(values))
-
-const saveData = async (state) => {
-  try {
-    await AsyncStorage.setItem('todos', JSON.stringify(state))
-  }
-  catch (err) {
-    console.log(err)
-  }
+const initialState = {
+  todos: []
 }
 
-export default function todoController(state = initialState || [], action) {
+export default function todoController(state = initialState, action) {
   switch (action.type) {
     case ADD_TODO:
-      const addTodo = [
-        ...state, 
+      return [
+        ...state.todos, 
         {
           todo: action.todo,
           id: action.id,
           isCompleted: false
         }
       ]
-      saveData(addTodo)
-      return addTodo
     case EDIT_TODO:
       return state.map(todo => {
         return todo.id === action.id
