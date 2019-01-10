@@ -6,6 +6,8 @@ A React Native mobile app for individuals to simplify their task management.
 
 ## Technologies
 - React Native
+- Redux
+- AsyncStorage via Redux Persist
 - HTML5
 - CSS3
 - JavaScript
