@@ -1,5 +1,5 @@
 # Todo App
-A React Native mobile app for individuals to create an organized todo list.
+A React Native mobile app for individuals to simplify their task management.
 
 ### Add, edit, check off, or delete todos off your list
 ![todo-app](https://user-images.githubusercontent.com/35009493/50191859-88a7ad00-02e4-11e9-88f1-1cd2c9521457.gif)
