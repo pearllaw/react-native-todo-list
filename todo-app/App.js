@@ -33,7 +33,7 @@ class App extends React.Component {
               autoCorrect={false} />
           </View>
           <ScrollView>
-            {state.length > 0 && state.map(todo => 
+            {state.reducer.length > 0 && state.reducer.map(todo => 
               <TodoList key={todo.id}
                 id={todo.id} 
                 {...todo} />
