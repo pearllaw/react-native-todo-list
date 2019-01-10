@@ -6,9 +6,9 @@ const initialState = {
 
 export default function todoController(state = initialState, action) {
   switch (action.type) {
-    case ADD_TODO:
+    case ADD_TODO: 
       return [
-        ...state.todos, 
+        ...state, 
         {
           todo: action.todo,
           id: action.id,
