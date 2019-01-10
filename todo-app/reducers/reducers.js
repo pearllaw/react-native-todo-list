@@ -1,10 +1,6 @@
 import { ADD_TODO, EDIT_TODO, REMOVE_TODO, TOGGLE_TODO } from '../actions/types'
 
-const initialState = {
-  todos: []
-}
-
-export default function todoController(state = initialState, action) {
+export default function todoController(state = [], action) {
   switch (action.type) {
     case ADD_TODO: 
       return [

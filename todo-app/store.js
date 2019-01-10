@@ -8,7 +8,7 @@ import thunk from 'redux-thunk'
 import App from './App'
 
 const config = {
-  key: 'todos',
+  key: 'root',
   storage
 }
 
@@ -31,8 +31,8 @@ export default class todoApp extends Component {
   }
 
   async componentWillMount() {
-    this.setState({ store })
-    this.setState({ persistor: persistor })
+    await this.setState({ store })
+    await this.setState({ persistor: persistor })
   }
 
   render() {
